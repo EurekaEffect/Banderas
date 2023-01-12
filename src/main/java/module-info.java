@@ -7,5 +7,6 @@ module dev.eureka.banderas {
     opens dev.eureka.banderas to javafx.fxml;
     exports dev.eureka.banderas;
     exports dev.eureka.banderas.controllers;
+    exports dev.eureka.banderas.system.event;
     opens dev.eureka.banderas.controllers to javafx.fxml;
 }
