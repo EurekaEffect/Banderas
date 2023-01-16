@@ -4,11 +4,12 @@ import com.google.common.eventbus.Subscribe;
 import dev.eureka.banderas.App;
 import dev.eureka.banderas.system.enums.AppStage;
 import dev.eureka.banderas.system.enums.GameType;
-import dev.eureka.banderas.system.event.ClickOnPaneEvent;
-import dev.eureka.banderas.system.event.EnterTextEvent;
+import dev.eureka.banderas.system.event.events.ClickOnPaneEvent;
+import dev.eureka.banderas.system.event.events.EnterTextEvent;
 import dev.eureka.banderas.system.event.Events;
-import dev.eureka.banderas.system.event.MouseEvent;
-import dev.eureka.banderas.system.flag.Flag;
+import dev.eureka.banderas.system.event.events.MouseEvent;
+import dev.eureka.banderas.system.game.AbstractGameMode;
+import dev.eureka.banderas.system.game.GameModes;
 import dev.eureka.banderas.system.util.Switch;
 import dev.eureka.banderas.system.web.FlagParser;
 import javafx.application.Platform;
@@ -20,48 +21,41 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class AppController implements Initializable {
-    @FXML private AnchorPane worldMapPane, casualPlayPane, randomPlayPane, flagPane, inputPane, skipPane, grayPane, wrongAnswerPane, confirmPane, topPane, exitPane;
-    @FXML private Text worldMapText, casualText, randomText, correctAnswerText, countryText, confirmText;
-    @FXML private ImageView flagView;
-    @FXML private TextField inputField;
+    @FXML public AnchorPane
+            topPane, exitPane,
+            worldMapPane, casualPlayPane, randomPlayPane,
+            flagPane, inputPane, skipPane,
+            grayPane, wrongAnswerPane, confirmPane;
 
-    private AppStage stage;
-    private GameType type;
+    @FXML public Text
+            worldMapText, casualText, randomText,
+            correctAnswerText, countryText, confirmText;
 
-    private FlagParser parser;
-    private Flag flag;
+    @FXML public ImageView flagView;
+    @FXML public TextField inputField;
+
+    public AppStage stage = AppStage.MENU;
+    public GameType type;
+
+    public FlagParser parser;
 
     private double x, y;
+
+    private AbstractGameMode mode;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         App.EVENT_BUS.register(this);
-        stage = AppStage.MENU;
-
-        // TODO: 16.01.2023 do something else, i dont like how it looks
-        topPane.setOnMousePressed(e -> {
-            if (e.getButton() != MouseButton.PRIMARY) return;
-
-            x = App.appStage.getX() - e.getScreenX();
-            y = App.appStage.getY() - e.getScreenY();
-        });
-        topPane.setOnMouseDragged(e -> {
-            if (e.getButton() != MouseButton.PRIMARY) return;
-
-            App.appStage.setX(e.getScreenX() + x);
-            App.appStage.setY(e.getScreenY() + y);
-        });
+        setTopPaneDraggable();
 
         // Gets all flags from the website, may take a while for loading
         parser = new FlagParser();
@@ -110,65 +104,53 @@ public class AppController implements Initializable {
 
     @Subscribe
     public void onPress(EnterTextEvent event) {
-        if (stage.equals(AppStage.GAME_WRONG_ANSWER)) return;
+        switch (mode.getType()) {
+            case WORLD_MAP -> {
 
-        if (event.keyCode().equals(KeyCode.ENTER)) {
-            String text = event.textField().getText();
-            String country = flag.getName();
+            }
+            case CASUAL, RANDOM -> {
+                if (stage.equals(AppStage.GAME_WRONG_ANSWER)) return;
 
-            if (text.isEmpty()) return;
-            text = text.trim();
-            text = text.toLowerCase();
-            country = country.toLowerCase();
+                if (event.keyCode().equals(KeyCode.ENTER)) {
+                    String text = event.textField().getText();
+                    String country = mode.getFlag().getName();
 
-            boolean correct = text.equals(country);
-            if (correct) {
-                setNextFlag();
-            } else {
-                popupWrongPane();
+                    if (text.isEmpty()) return;
+                    text = text.trim();
+                    text = text.toLowerCase();
+                    country = country.toLowerCase();
+
+                    boolean correct = text.equals(country);
+                    if (correct) {
+                        mode.setNextFlag();
+                    } else {
+                        popupWrongPane();
+                    }
+                }
             }
         }
     }
 
-    private void loadGame() {
-        stage = AppStage.GAME;
+    private void setTopPaneDraggable() {
+        topPane.setOnMousePressed(e -> {
+            if (e.getButton() != MouseButton.PRIMARY) return;
 
-        Map<Pane, Boolean> panes = Map.of(
-                worldMapPane, false,
-                casualPlayPane, false,
-                randomPlayPane, false,
-                flagPane, true,
-                inputPane, true,
-                skipPane, true
-        );
-
-        flagPane.setVisible(true);
-        inputPane.setVisible(true);
-        skipPane.setVisible(true);
-
-        Thread thread = new Thread(() -> {
-            for (double i = 1.0; i > 0.0; i -= 0.02) {
-                try {Thread.sleep(15);} catch (InterruptedException e) {throw new RuntimeException(e);}
-
-                double opacity = i;
-                Platform.runLater(() -> {
-                    panes.forEach((pane, reverse) -> pane.setOpacity(reverse ? 1.0 - opacity : opacity));
-                });
-            }
+            x = App.appStage.getX() - e.getScreenX();
+            y = App.appStage.getY() - e.getScreenY();
         });
-        thread.start();
 
-        setNextFlag();
+        topPane.setOnMouseDragged(e -> {
+            if (e.getButton() != MouseButton.PRIMARY) return;
+
+            App.appStage.setX(e.getScreenX() + x);
+            App.appStage.setY(e.getScreenY() + y);
+        });
     }
 
-    private void setNextFlag() {
-        flag = switch (type) {
-            case WORLD_MAP, CASUAL -> parser.getNext();
-            case RANDOM -> parser.getAny();
-        };
-        flagView.setImage(flag.getFlag());
-
-        inputField.clear();
+    private void loadGame() {
+        stage = AppStage.GAME;
+        mode = GameModes.get(this, type);
+        mode.run();
     }
 
     private void popupWrongPane() {
@@ -178,15 +160,11 @@ public class AppController implements Initializable {
             Platform.runLater(() -> {
                 grayPane.setVisible(true);
                 wrongAnswerPane.setVisible(true);
-                countryText.setText(flag.getName());
+                countryText.setText(mode.getFlag().getName());
             });
 
             for (double i = 0.0; i < 1.0; i += 0.02) {
-                try {
-                    Thread.sleep(2);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                try {Thread.sleep(2);} catch (InterruptedException e) {throw new RuntimeException(e);}
 
                 double opacity = i;
                 Platform.runLater(() -> {
@@ -203,11 +181,7 @@ public class AppController implements Initializable {
 
         Thread thread = new Thread(() -> {
             for (double i = 1.0; i > 0.0; i -= 0.02) {
-                try {
-                    Thread.sleep(2);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                try {Thread.sleep(2);} catch (InterruptedException e) {throw new RuntimeException(e);}
 
                 double opacity = i;
                 Platform.runLater(() -> {
@@ -219,7 +193,7 @@ public class AppController implements Initializable {
             Platform.runLater(() -> {
                 grayPane.setVisible(false);
                 wrongAnswerPane.setVisible(false);
-                setNextFlag();
+                mode.setNextFlag();
             });
         });
         thread.start();

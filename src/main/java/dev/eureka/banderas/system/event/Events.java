@@ -2,6 +2,7 @@ package dev.eureka.banderas.system.event;
 
 import dev.eureka.banderas.App;
 import dev.eureka.banderas.system.enums.AppStage;
+import dev.eureka.banderas.system.event.events.MouseEvent;
 import javafx.scene.Node;
 
 public class Events {

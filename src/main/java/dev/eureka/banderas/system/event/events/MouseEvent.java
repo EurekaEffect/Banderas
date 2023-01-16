@@ -1,4 +1,4 @@
-package dev.eureka.banderas.system.event;
+package dev.eureka.banderas.system.event.events;
 
 import dev.eureka.banderas.system.enums.AppStage;
 import javafx.scene.Node;
