@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1040.0" style="-fx-background-color: #5bb573; -fx-background-radius: 0 0 25 25;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.eureka.banderas.controllers.AppController">
+    <children>
+        <AnchorPane fx:id="flagPane" layoutX="365.0" layoutY="119.0" opacity="0.0" prefHeight="211.0" prefWidth="310.0" style="-fx-background-color: #7ec290; -fx-background-radius: 15 15 15 15; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.15), 10.0, 0, 0, 10.0);" visible="false">
+            <children>
+                <ImageView fx:id="flagView" fitHeight="192.0" fitWidth="256.0" pickOnBounds="true" preserveRatio="true" translateX="27.0" translateY="10.0" />
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="inputPane" layoutX="337.0" layoutY="425.0" opacity="0.0" prefHeight="59.0" prefWidth="367.0" style="-fx-background-color: #7ec290; -fx-background-radius: 15 15 15 15; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.15), 10.0, 0, 0, 10.0);" visible="false">
+            <children>
+                <TextField fx:id="inputField" alignment="CENTER" layoutX="22.0" layoutY="7.0" prefHeight="45.0" prefWidth="324.0" promptText="Country" style="-fx-background-color: transparent;">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </TextField>
+            </children>
+        </AnchorPane>
+      <AnchorPane fx:id="skipPane" layoutX="714.0" layoutY="425.0" opacity="0.0" prefHeight="59.0" prefWidth="64.0" style="-fx-background-color: #7ec290; -fx-background-radius: 15 15 15 15; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.15), 10.0, 0, 0, 10.0);" visible="false">
+         <children>
+            <Polygon disable="true" fill="#5bb573" layoutX="59.0" layoutY="13.0" points="-43.0, 35.0, -19.75, 13.75, -43.0, -3.0" stroke="#5bb573" strokeType="INSIDE" />
+            <Polygon disable="true" fill="#5bb573" layoutX="75.0" layoutY="13.0" points="-43.0, 35.0, -19.75, 13.75, -43.0, -3.0" stroke="#5bb573" strokeType="INSIDE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="worldMapPane" layoutX="409.0" layoutY="113.0" prefHeight="114.0" prefWidth="225.0" style="-fx-background-color: #7ec290; -fx-background-radius: 15 15 15 15; -fx-effect: dropShadow(three-pass-box,rgba(0,0.2,0.2,0.15), 10.0, 0, 0, 10.0);">
+         <children>
+            <Text fx:id="worldMapText" disable="true" fill="#222222" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="World Map" textAlignment="CENTER" wrappingWidth="225.0" />
+         </children>
+      </AnchorPane>
+        <AnchorPane fx:id="casualPlayPane" layoutX="259.0" layoutY="273.0" prefHeight="114.0" prefWidth="225.0" style="-fx-background-color: #7ec290; -fx-background-radius: 15 15 15 15; -fx-effect: dropShadow(three-pass-box,rgba(0,0.2,0.2,0.15), 10.0, 0, 0, 10.0);">
+            <children>
+                <Text fx:id="casualText" disable="true" fill="#222222" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Casual" textAlignment="CENTER" wrappingWidth="225.0" />
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="randomPlayPane" layoutX="559.0" layoutY="273.0" prefHeight="114.0" prefWidth="225.0" style="-fx-background-color: #7ec290; -fx-background-radius: 15 15 15 15; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.15), 10.0, 0, 0, 10.0);">
+            <children>
+                <Text fx:id="randomText" disable="true" fill="#222222" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Random" textAlignment="CENTER" wrappingWidth="225.0" />
+            </children>
+        </AnchorPane>
+      <AnchorPane fx:id="grayPane" opacity="0.0" prefHeight="660.0" prefWidth="1040.0" style="-fx-background-color: #8A8A8A6B; -fx-background-radius: 0 0 25 25;" visible="false" />
+      <AnchorPane fx:id="wrongAnswerPane" layoutY="549.0" opacity="0.0" prefHeight="114.0" prefWidth="1040.0" style="-fx-background-color: f5695fca; -fx-background-radius: 10 10 25 25; -fx-border-color: #FF030389; -fx-border-width: 3; -fx-border-radius: 15 15 25 25; -fx-effect: dropShadow(three-pass-box,rgba(0,0.2,0.2,0.15), 10.0, 0, 0, 10.0);" visible="false">
+         <children>
+            <AnchorPane fx:id="confirmPane" layoutX="780.0" layoutY="21.0" prefHeight="73.0" prefWidth="225.0" style="-fx-background-color: #F200007A; -fx-background-radius: 25 25 25 25;">
+               <children>
+                  <Text fx:id="confirmText" fill="#fff3f3" fontSmoothingType="LCD" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirm" textAlignment="CENTER" wrappingWidth="225.0" />
+               </children>
+            </AnchorPane>
+            <Text fx:id="correctAnswerText" fill="#4d0000" layoutX="38.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Correct answer:" />
+            <Text fx:id="countryText" fill="#fff3f3" layoutX="38.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="topPane" layoutX="1.0" prefHeight="50.0" prefWidth="1040.0">
+         <children>
+            <AnchorPane fx:id="exitPane" layoutX="970.0" layoutY="5.0" prefHeight="36.0" prefWidth="64.0" style="-fx-background-color: #7ec290; -fx-background-radius: 10 10 10 10;" />
+         </children>
+      </AnchorPane>
+    </children>
+</AnchorPane>

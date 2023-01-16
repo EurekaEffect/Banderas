@@ -1,7 +1,6 @@
 module dev.eureka.banderas {
     requires javafx.controls;
     requires javafx.fxml;
-    requires lombok;
     requires com.google.common;
 
     opens dev.eureka.banderas to javafx.fxml;

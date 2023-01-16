@@ -3,10 +3,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1040.0" style="-fx-background-color: #5bb573; -fx-background-radius: 0 0 25 25;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.eureka.banderas.controllers.AppController">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1040.0" style="-fx-background-color: #5bb573; -fx-background-radius: 0 0 25 25;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.eureka.banderas.controllers.Dummy">
    <children>
       <AnchorPane fx:id="flagPane" layoutX="365.0" layoutY="119.0" prefHeight="211.0" prefWidth="310.0" style="-fx-background-color: #7ec290; -fx-background-radius: 15 15 15 15; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.15), 10.0, 0, 0, 10.0);">
          <children>
@@ -22,10 +23,20 @@
             </TextField>
          </children>
       </AnchorPane>
-      <Text fx:id="countryText" fill="WHITE" fontSmoothingType="LCD" layoutX="337.0" layoutY="379.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="367.0">
-         <font>
-            <Font name="Franklin Gothic Medium" size="31.0" />
-         </font>
-      </Text>
+      <AnchorPane fx:id="wrongAnswerPane" layoutY="556.0" prefHeight="104.0" prefWidth="1040.0" style="-fx-background-color: #f5695fca; -fx-background-radius: 0 0 25 25;">
+         <children>
+            <Text fx:id="countryText" fill="WHITE" fontSmoothingType="LCD" layoutX="32.0" layoutY="72.0" opacity="0.9" strokeType="OUTSIDE" strokeWidth="0.0" text="Ukraine" wrappingWidth="598.0">
+               <font>
+                  <Font name="Franklin Gothic Medium Italic" size="58.0" />
+               </font>
+            </Text>
+            <Text fx:id="countryText1" fill="WHITE" fontSmoothingType="LCD" layoutX="32.0" layoutY="22.0" opacity="0.9" strokeType="OUTSIDE" strokeWidth="0.0" text="Country name is " wrappingWidth="423.0">
+               <font>
+                  <Font name="Franklin Gothic Medium" size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <Line fx:id="upperLine" endX="1040.0" layoutY="556.0" stroke="#d04747c9" strokeWidth="5.0" />
    </children>
 </AnchorPane>
