@@ -1,14 +1,7 @@
 package dev.eureka.banderas.system.event;
 
-import lombok.Getter;
-import lombok.Setter;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
-@Getter
-@Setter
-public class EnterTextEvent {
-    private String text;
-
-    public EnterTextEvent(String text) {
-        this.text = text;
-    }
+public record EnterTextEvent(KeyCode keyCode, TextField textField) {
 }
